@@ -1,5 +1,4 @@
 FROM debian:stretch
-MAINTAINER Carbon Black "https://github.com/carbonblack/"
 
 RUN apt-get update \
  && apt-get install -y locales fish man-db nano \
