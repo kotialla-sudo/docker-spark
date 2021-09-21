@@ -49,36 +49,29 @@ RUN curl -sL --retry 3 --insecure \
   && rm -rf $JAVA_HOME/man
 
 # HADOOP
-ENV HADOOP_VERSION 3.0.0
+
+ENV HADOOP_VERSION 2.7.2
 ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 ENV PATH $PATH:$HADOOP_HOME/bin
-RUN curl -sL --retry 3 \
-  "http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz" \
-  | gunzip \
-  | tar -x -C /usr/ \
- && rm -rf $HADOOP_HOME/share/doc \
- && chown -R root:root $HADOOP_HOME
+RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
+    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
+    rm -rf $HADOOP_HOME/share/doc
 
 # SPARK
+RUN apk add ca-certificates wget && update-ca-certificates
 ENV SPARK_VERSION 2.4.0
-ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
-ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
+ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
+ENV SPARK_HOME /usr/spark-$SPARK_VERSION
+ENV PYSPARK_DRIVER_PYTHON ipython
+ENV PYSPARK_PYTHON python3
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
-ENV PATH $PATH:${SPARK_HOME}/bin
-RUN curl -sL --retry 3 \
-  "https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz" \
-  | gunzip \
-  | tar x -C /usr/ \
- && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
- && chown -R root:root $SPARK_HOME
-RUN chsh -s /usr/bin/fish
+ENV PATH $PATH:$SPARK_HOME/bin
+RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
+    tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
+    mv $SPARK_PACKAGE $SPARK_HOME && \
+    rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
 
-
-
- ## install ripgrep
- RUN curl -s --retry 3 -LO https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb \
- && dpkg -i ripgrep_0.10.0_amd64.deb
-
-WORKDIR $SPARK_HOME
+WORKDIR /$SPARK_HOME
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
