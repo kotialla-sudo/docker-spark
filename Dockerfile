@@ -1,7 +1,5 @@
 FROM debian:stretch
 
-ADD file:07a6578d6f507bd9c51bdf4fe41402db5dcf3b9fdf51cd4315778c27da1add39 in /
-
 CMD ["/bin/sh"]
 
 RUN apt-get update \
