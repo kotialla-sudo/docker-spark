@@ -24,22 +24,25 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN apt-get update \
- && apt-get install -y curl unzip git \
-    python3 python3-setuptools \
- && easy_install3 pip py4j \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+# PYTHON 3
 
-# PYTHON 
-RUN pip3 install pyspark jupyter
-
-# http://blog.stuart.axelbrooke.com/python-3-on-spark-return-of-the-pythonhashseed
-ENV PYTHONHASHSEED 0
-ENV PYTHONIOENCODING UTF-8
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
-ENV PYSPARK_PYTHON python2.7
-ENV PYSPARK3_PYTHON python3
+ENV PYTHON_VERSION 3.4.3-r2
+ENV ALPINE_OLD_VERSION 3.2
+# Hack: using older alpine version to install specific python version
+RUN sed -n \
+    's|^http://dl-cdn\.alpinelinux.org/alpine/v\([0-9]\+\.[0-9]\+\)/main$|\1|p' \
+    /etc/apk/repositories > curr_version.tmp && \
+    sed -i 's|'$(cat curr_version.tmp)'/main|'$ALPINE_OLD_VERSION'/main|' \
+    /etc/apk/repositories
+# Installing given python3 version
+RUN apk update && \
+    apk add python3=$PYTHON_VERSION
+# Reverting hack
+RUN sed -i 's|'$(cat curr_version.tmp)'/main|'$ALPINE_OLD_VERSION'/main|' \
+    /etc/apk/repositories && \
+    rm curr_version.tmp
+# Upgrading pip to the last compatible version
+RUN pip3 install --upgrade pip
 
 # JAVA
 ARG JAVA_MAJOR_VERSION=8
