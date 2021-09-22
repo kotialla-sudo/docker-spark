@@ -1,5 +1,8 @@
 FROM debian:stretch
 
+ADD file:07a6578d6f507bd9c51bdf4fe41402db5dcf3b9fdf51cd4315778c27da1add39 in /
+
+CMD ["/bin/sh"]
 
 RUN apt-get update \
  && apt-get install -y locales fish man-db nano \
@@ -57,7 +60,7 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
-
+CMD ["python3"]
 # JAVA
 RUN apt update
 RUN apt-get install -y openjdk-8-jdk
