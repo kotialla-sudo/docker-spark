@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM FROM ubuntu:20.04
 
 CMD ["/bin/sh"]
 
