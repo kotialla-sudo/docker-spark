@@ -96,10 +96,6 @@ fi
 if [ $LAUNCHER_EXIT_CODE != 0 ]; then
   exit $LAUNCHER_EXIT_CODE
 fi
-while true;                                                                                                                                                 
-do
-    links http://anaconda-py-hadoop-spark-jdk1-cicd.apps.ocp4.imss.com -dump > /dev/null 
-    sleep 2
-done
+
 CMD=("${CMD[@]:0:$LAST}")
 exec "${CMD[@]}"
