@@ -25,60 +25,35 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN apt-get update --fix-missing &&     apt-get install -y wget bzip2 ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 git mercurial subversion &&     apt-get clean
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && /bin/bash ~/anaconda.sh -b -p /opt/conda && rm ~/anaconda.sh && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && echo "conda activate base" >> ~/.bashrc && find /opt/conda/ -follow -type f -name '*.a' -delete && find /opt/conda/ -follow -type f -name '*.js.map' -delete && /opt/conda/bin/conda clean -afy
+# HADOOP
 
-USER root
-WORKDIR /root
+ENV HADOOP_VERSION 2.7.2
+ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+ENV PATH $PATH:$HADOOP_HOME/bin
+RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
+    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
+    rm -rf $HADOOP_HOME/share/doc
 
-SHELL [ "/bin/bash", "-c" ]
+# SPARK
 
-ARG PYTHON_VERSION_TAG=3.8.7
-ARG LINK_PYTHON_TO_PYTHON3=1
-
-# Existing lsb_release causes issues with modern installations of Python3
-# https://github.com/pypa/pip/issues/4924#issuecomment-435825490
-# Set (temporarily) DEBIAN_FRONTEND to avoid interacting with tzdata
-RUN apt-get -qq -y update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -qq -y install \
-        gcc \
-        g++ \
-        zlibc \
-        zlib1g-dev \
-        libssl-dev \
-        libbz2-dev \
-        libsqlite3-dev \
-        libncurses5-dev \
-        libgdbm-dev \
-        libgdbm-compat-dev \
-        liblzma-dev \
-        libreadline-dev \
-        uuid-dev \
-        libffi-dev \
-        tk-dev \
-        wget \
-        curl \
-        git \
-        make \
-        sudo \
-        bash-completion \
-        tree \
-        vim \
-        software-properties-common && \
-    mv /usr/bin/lsb_release /usr/bin/lsb_release.bak && \
-    apt-get -y autoclean && \
-    apt-get -y autoremove && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY install_python.sh install_python.sh
-RUN bash install_python.sh ${PYTHON_VERSION_TAG} ${LINK_PYTHON_TO_PYTHON3} && \
-    rm -r install_python.sh Python-${PYTHON_VERSION_TAG}
-
-# Enable tab completion by uncommenting it from /etc/bash.bashrc
-# The relevant lines are those below the phrase "enable bash completion in interactive shells"
-RUN export SED_RANGE="$(($(sed -n '\|enable bash completion in interactive shells|=' /etc/bash.bashrc)+1)),$(($(sed -n '\|enable bash completion in interactive shells|=' /etc/bash.bashrc)+7))" && \
-    sed -i -e "${SED_RANGE}"' s/^#//' /etc/bash.bashrc && \
-    unset SED_RANGE
-
-# Upgrading pip to the last compatible version
-RUN pip3 install --upgrade pip
-CMD ["python3"]
-
+ENV SPARK_VERSION 2.4.0
+ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
+ENV SPARK_HOME /usr/spark-$SPARK_VERSION
+ENV PYSPARK_DRIVER_PYTHON ipython
+ENV PYSPARK_PYTHON python3
+ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
+ENV PATH $PATH:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin
+RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
+    tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
+    mv $SPARK_PACKAGE $SPARK_HOME && \
+    rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
+    
+## install ripgrep
+RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb \
+    && dpkg -i ripgrep_0.10.0_amd64.deb
+RUN rm /$SPARK_HOME/bin/spark-class
+ADD spark-class /$SPARK_HOME/bin
+WORKDIR /$SPARK_HOME
+CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
