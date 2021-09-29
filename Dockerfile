@@ -65,7 +65,6 @@ RUN wget -O get-pip.py "$PYTHON_GET_PIP_URL"; 	echo "$PYTHON_GET_PIP_SHA256 *get
 RUN pip3 install --upgrade pip
 CMD ["python3"]
 
-
 # HADOOP
 
 #ENV HADOOP_VERSION 2.7.2
