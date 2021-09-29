@@ -76,3 +76,24 @@ CMD ["python3"]
 #    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
 #    rm -rf $HADOOP_HOME/share/doc
 
+# SPARK
+
+#ENV SPARK_VERSION 2.4.0
+#ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
+#ENV SPARK_HOME /usr/spark-$SPARK_VERSION
+#ENV PYSPARK_DRIVER_PYTHON ipython
+#ENV PYSPARK_PYTHON python3
+#ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
+#ENV PATH $PATH:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin
+#RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
+#    tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
+#    mv $SPARK_PACKAGE $SPARK_HOME && \
+#    rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
+    
+## install ripgrep
+#RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb \
+#    && dpkg -i ripgrep_0.10.0_amd64.deb
+#RUN rm /$SPARK_HOME/bin/spark-class
+#ADD spark-class /$SPARK_HOME/bin
+#WORKDIR /$SPARK_HOME
+#CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
