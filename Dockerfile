@@ -27,14 +27,14 @@ RUN apt-get update --fix-missing &&     apt-get install -y wget bzip2 ca-certifi
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && /bin/bash ~/anaconda.sh -b -p /opt/conda && rm ~/anaconda.sh && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && echo "conda activate base" >> ~/.bashrc && find /opt/conda/ -follow -type f -name '*.a' -delete && find /opt/conda/ -follow -type f -name '*.js.map' -delete && /opt/conda/bin/conda clean -afy
 # HADOOP
 
-ENV HADOOP_VERSION 2.7.2
-ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
-ENV PATH $PATH:$HADOOP_HOME/bin
-RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
-    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
-    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
-    rm -rf $HADOOP_HOME/share/doc
+#ENV HADOOP_VERSION 2.7.2
+#ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
+#ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+#ENV PATH $PATH:$HADOOP_HOME/bin
+#RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+#    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
+#    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
+#    rm -rf $HADOOP_HOME/share/doc
 
 # SPARK
 
