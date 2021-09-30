@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 RUN apt-get update \
- && apt-get install -y locales fish man-db nano \
+ && apt-get install -y wget locales fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
  && locale-gen C.UTF-8 \
  && /usr/sbin/update-locale LANG=C.UTF-8 \
@@ -10,7 +10,6 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y wget
 
 # Users with other locales should set this in their derivative image
 ENV LANG en_US.UTF-8
