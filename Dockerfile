@@ -45,7 +45,6 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.1/spark-2.4.1-bin-witho
 ## install ripgrep
 RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb \
     && dpkg -i ripgrep_0.10.0_amd64.deb
-RUN rm /$SPARK_HOME/bin/spark-class
-ADD spark-class /$SPARK_HOME/bin
+
 WORKDIR /$SPARK_HOME
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
