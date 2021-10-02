@@ -59,4 +59,10 @@ RUN wget -O get-pip.py "$PYTHON_GET_PIP_URL"; 	echo "$PYTHON_GET_PIP_SHA256 *get
 
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
-CMD ["/bin/bash"]
+
+WORKDIR /service
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . ./
+EXPOSE 8080
+ENTRYPOINT ["python3", "app.py"]
