@@ -59,9 +59,9 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
-WORKDIR /service
+WORKDIR /bin
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY . ./
+COPY app.py ./
 EXPOSE 8080
 ENTRYPOINT ["python3", "app.py"]
