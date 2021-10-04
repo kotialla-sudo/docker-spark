@@ -48,4 +48,4 @@ RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_
 
 WORKDIR /$SPARK_HOME
 
-CMD ["/bin/bash", "ls" && "bin/spark-class", "org.apache.spark.deploy.master.Master"]
+CMD ["/bin/sh", "ls" && "bin/spark-class", "org.apache.spark.deploy.master.Master"]
