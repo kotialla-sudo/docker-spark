@@ -47,4 +47,5 @@ RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_
     && dpkg -i ripgrep_0.10.0_amd64.deb
 ENV SHELL=/bin/bash
 WORKDIR /$SPARK_HOME
+ENTRYPOINT [ "bash", "ls" ]
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
