@@ -61,14 +61,6 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_6
 WORKDIR /app
 COPY environment.yml .
 RUN conda env create -f environment.yml
-
-# Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
-
-# Demonstrate the environment is activated:
-RUN echo "Make sure flask is installed:"
-RUN python -c "import flask"
-
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY app.py ./
