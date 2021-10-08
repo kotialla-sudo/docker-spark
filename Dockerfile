@@ -11,12 +11,6 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 
-# Users with other locales should set this in their derivative image
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-
 #Python 3.7.11
 
 RUN apt-get update; 	apt-get install -y --no-install-recommends 		apt-transport-https 		ca-certificates 		curl 		netbase 		wget 	; 	rm -rf /var/lib/apt/lists/*
