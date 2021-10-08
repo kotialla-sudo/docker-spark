@@ -82,6 +82,24 @@ RUN wget -O get-pip.py "$PYTHON_GET_PIP_URL"; 	echo "$PYTHON_GET_PIP_SHA256 *get
 RUN pip3 install --upgrade pip
 CMD ["python3"]
 
+
+# Create the environment:
+COPY environment.yml .
+RUN conda env create -f environment.yml
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
+
+# Demonstrate the environment is activated:
+RUN echo "Make sure flask is installed:"
+RUN python -c "import flask"
+
+# The code to run when container is started:
+COPY run.py .
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python", "run.py"]
+
+
+
 # HADOOP
 
 #ENV HADOOP_VERSION 2.7.2
