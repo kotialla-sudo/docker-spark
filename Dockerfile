@@ -48,14 +48,31 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 RUN pip3 install --upgrade pip
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
+
+ENV SETUSER myuser
+
+RUN useradd -m $SETUSER
+USER $SETUSER
+WORKDIR /home/$SETUSER
+
 CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
+RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
+RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
+RUN rm Anaconda3-2019.03-Linux-x86_64.sh
 
-RUN apt-get update --fix-missing &&     apt-get install -y wget bzip2 ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 git mercurial subversion &&     apt-get clean
 
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O ~/anaconda.sh &&     /bin/bash ~/anaconda.sh -b -p /opt/conda &&     rm ~/anaconda.sh &&     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh &&     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc &&     echo "conda activate base" >> ~/.bashrc &&     find /opt/conda/ -follow -type f -name '*.a' -delete &&     find /opt/conda/ -follow -type f -name '*.js.map' -delete &&     /opt/conda/bin/conda clean -afy
+ENV CONDA_ENV_NAME mynewenv
+RUN /home/$SETUSER/anaconda3/condabin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
+    /home/$SETUSER/anaconda3/condabin/conda clean --yes --all
+RUN /home/$SETUSER/anaconda3/condabin/conda activate base
 
+ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
+ENV PATH /home/$SETUSER/anaconda3/condabin:$PATH
+ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
+RUN conda init bash
+RUN /bin/bash -c "source /home/$SETUSER/.bashrc"
+RUN conda activate base
 # Create the environment:
 
 WORKDIR /app
