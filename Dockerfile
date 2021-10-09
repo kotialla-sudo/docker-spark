@@ -59,16 +59,16 @@ CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
-RUN rm Anaconda3-2019.03-Linux-x86_64.sh
-
+RUN rm Anaconda3-2020.02-Linux-x86_64.sh
+RUN ls /home/$SETUSER/anaconda3
 
 ENV CONDA_ENV_NAME mynewenv
-RUN /home/$SETUSER/anaconda3/condabin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
-    /home/$SETUSER/anaconda3/condabin/conda clean --yes --all
-RUN /home/$SETUSER/anaconda3/condabin/conda activate base
+RUN /home/$SETUSER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
+    /home/$SETUSER/anaconda3/bin/conda clean --yes --all
+RUN /home/$SETUSER/anaconda3/bin/conda activate base
 
 ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
-ENV PATH /home/$SETUSER/anaconda3/condabin:$PATH
+ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
 ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
 RUN conda init bash
 RUN /bin/bash -c "source /home/$SETUSER/.bashrc"
@@ -76,8 +76,6 @@ RUN conda activate base
 # Create the environment:
 
 WORKDIR /app
-COPY environment.yml .
-RUN conda env create -f environment.yml
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY app.py ./
