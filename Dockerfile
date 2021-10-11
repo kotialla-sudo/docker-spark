@@ -81,5 +81,5 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY app.py ./
 EXPOSE 8080
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python3", "app.py"]
-
+#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python3", "app.py"]
+ENTRYPOINT ["python3", "app.py"]
