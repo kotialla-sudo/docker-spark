@@ -65,7 +65,6 @@ RUN ls /home/$SETUSER/anaconda3
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$SETUSER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
     /home/$SETUSER/anaconda3/bin/conda clean --yes --all
-RUN bash /home/$SETUSER/anaconda3/bin/conda activate
 
 ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
