@@ -73,7 +73,7 @@ ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
 RUN conda init bash
 RUN /bin/bash -c "source /home/$SETUSER/.bashrc"
-RUN bash conda activate
+#RUN bash conda activate base
 # Create the environment:
 
 WORKDIR /app
