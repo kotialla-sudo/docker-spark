@@ -49,6 +49,9 @@ RUN pip3 install --upgrade pip
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
+RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
+RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+
 ENV SETUSER myuser
 
 RUN useradd -m $SETUSER
