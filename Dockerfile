@@ -47,7 +47,7 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
-RUN pip3 install sh
+
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -59,11 +59,11 @@ ENV SETUSER myuser
 RUN useradd -m $SETUSER
 USER $SETUSER
 WORKDIR /home/$SETUSER
-
+RUN pip3 install sh
 CMD ["sh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
-RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
+RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$SETUSER/anaconda3
 
