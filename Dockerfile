@@ -58,7 +58,7 @@ RUN useradd -m $SETUSER
 USER $SETUSER
 WORKDIR /home/$SETUSER
 
-CMD ["bash"]
+CMD ["sh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
