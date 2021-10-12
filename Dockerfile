@@ -47,6 +47,8 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
+RUN pip3 install sh
+
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
