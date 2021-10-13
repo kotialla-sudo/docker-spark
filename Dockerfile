@@ -1,14 +1,20 @@
 FROM debian:stretch
-ARG UID=1000
-ARG GID=1000
 
-ENV SETUSER user
+# user details
+ENV USER=user
+ENV UID=1000
+ENV GID=1000
 
-RUN useradd -m $SETUSER
+# create user
+RUN groupadd --gid $GID $USER
+RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
+
+
+
+RUN useradd -m $USER
 USER $SETUSER
-WORKDIR /home/$SETUSER
+WORKDIR /home/$USER
 
-RUN groupadd -g $GID -o user
 
 RUN useradd -u $UID -m -g user -G plugdev user \
 	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
@@ -87,11 +93,11 @@ RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$SETUSER/anaconda3
 
 ENV CONDA_ENV_NAME mynewenv
-RUN /home/$SETUSER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
-    /home/$SETUSER/anaconda3/bin/conda clean --yes --all
+RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
+    /home/$USER/anaconda3/bin/conda clean --yes --all
 
-ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
-ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
+ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
+ENV PATH /home/$USER/anaconda3/bin:$PATH
 RUN conda init tcsh
 RUN /bin/sh -c "source /home/$SETUSER/.bashrc"
 #RUN bash conda activate base
