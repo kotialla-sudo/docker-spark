@@ -2,18 +2,6 @@ FROM debian:stretch
 
 RUN apt update && apt install -y --no-install-recommends
 
-# user details
-ENV USER=user
-ENV UID=1000
-ENV GID=1000
-
-# create user
-RUN groupadd --gid $GID $USER
-RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
-
-USER $USER
-WORKDIR /home/$USER
-
 RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
@@ -79,6 +67,17 @@ RUN apt-get clean
 
 RUN ln -s /bin/sh /usr/local/bin/sh
 
+# user details
+ENV USER=user
+ENV UID=1000
+ENV GID=1000
+
+# create user
+RUN groupadd --gid $GID $USER
+RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
+
+USER $USER
+WORKDIR /home/$USER
 CMD ["tcsh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
