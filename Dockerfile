@@ -1,6 +1,5 @@
 FROM debian:stretch
 
-RUN apt update && apt install -y --no-install-recommends
 
 RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk locales vim fish man-db nano \
