@@ -78,7 +78,7 @@ RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 
 USER $USER
 WORKDIR /home/$USER
-CMD ["tcsh"]
+CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
@@ -91,7 +91,7 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
 
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$PATH
-RUN conda init tcsh
+RUN conda init bash
 RUN /bin/sh -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
