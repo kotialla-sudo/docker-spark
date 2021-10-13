@@ -83,7 +83,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
-RUN ls /home/$SETUSER/anaconda3
+RUN ls /home/$USER/anaconda3
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
@@ -92,7 +92,7 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$PATH
 RUN conda init tcsh
-RUN /bin/sh -c "source /home/$SETUSER/.bashrc"
+RUN /bin/sh -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
 
