@@ -1,4 +1,6 @@
 FROM debian:stretch
+ARG UID=1000
+ARG GID=1000
 
 ENV SETUSER user
 
@@ -59,7 +61,15 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
-
+RUN pip3 install wheel pip -U &&\
+	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements.txt && \
+	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/master/scripts/requirements.txt && \
+	pip3 install west &&\
+	pip3 install sh &&\
+	pip3 install awscli PyGithub junitparser pylint \
+		     statistics numpy \
+		     imgtool \
+		     protobuf
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -68,7 +78,7 @@ RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
 
 RUN ln -s /bin/sh /usr/local/bin/sh
-RUN pip3 install sh
+
 CMD ["tcsh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
