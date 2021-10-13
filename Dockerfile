@@ -47,7 +47,7 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
-RUN ln -s /usr/local/bin/sh
+
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -66,9 +66,9 @@ RUN groupadd -g $GID -o user
 RUN useradd -u $UID -m -g user -G plugdev user \
 	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
 	&& chmod 0440 /etc/sudoers.d/user
-
+RUN ln -s /bin/sh /usr/local/bin/sh
 RUN pip3 install sh
-CMD ["sh"]
+CMD ["tcsh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
@@ -81,7 +81,7 @@ RUN /home/$SETUSER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3
 
 ENV PATH /home/$SETUSER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$SETUSER/anaconda3/bin:$PATH
-RUN conda init sh
+RUN conda init tcsh
 RUN /bin/sh -c "source /home/$SETUSER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
