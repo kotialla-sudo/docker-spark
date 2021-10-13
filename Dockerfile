@@ -53,8 +53,7 @@ RUN pip3 install --upgrade pip
 
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
 RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
-RUN apt-get clean && \
-	sudo apt-get autoremove --purge
+RUN apt-get clean
 ENV SETUSER user
 
 RUN useradd -m $SETUSER
