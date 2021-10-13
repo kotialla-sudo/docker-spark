@@ -1,5 +1,7 @@
 FROM debian:stretch
 
+RUN apt update && apt install -y --no-install-recommends
+
 # user details
 ENV USER=user
 ENV UID=1000
