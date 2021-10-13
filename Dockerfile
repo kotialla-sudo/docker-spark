@@ -47,18 +47,26 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # Upgrading pip to the last compatible version
 RUN pip3 install --upgrade pip
 
-
+RUN ln -s /usr/local/bin/sh
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
 RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
-
-ENV SETUSER myuser
+RUN apt-get clean && \
+	sudo apt-get autoremove --purge
+ENV SETUSER user
 
 RUN useradd -m $SETUSER
 USER $SETUSER
 WORKDIR /home/$SETUSER
+
+RUN groupadd -g $GID -o user
+
+RUN useradd -u $UID -m -g user -G plugdev user \
+	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
+	&& chmod 0440 /etc/sudoers.d/user
+
 RUN pip3 install sh
 CMD ["sh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
