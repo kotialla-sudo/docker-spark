@@ -9,10 +9,7 @@ ENV GID=1000
 
 # create user
 RUN groupadd --gid $GID $USER
-RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER\
-	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
-	&& chmod 0440 /etc/sudoers.d/user
-
+RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 
 USER $USER
 WORKDIR /home/$USER
