@@ -1,5 +1,17 @@
 FROM debian:stretch
 
+ENV SETUSER user
+
+RUN useradd -m $SETUSER
+USER $SETUSER
+WORKDIR /home/$SETUSER
+
+RUN groupadd -g $GID -o user
+
+RUN useradd -u $UID -m -g user -G plugdev user \
+	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
+	&& chmod 0440 /etc/sudoers.d/user
+
 RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
@@ -54,17 +66,7 @@ RUN pip3 install --upgrade pip
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
 RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
-ENV SETUSER user
 
-RUN useradd -m $SETUSER
-USER $SETUSER
-WORKDIR /home/$SETUSER
-
-RUN groupadd -g $GID -o user
-
-RUN useradd -u $UID -m -g user -G plugdev user \
-	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
-	&& chmod 0440 /etc/sudoers.d/user
 RUN ln -s /bin/sh /usr/local/bin/sh
 RUN pip3 install sh
 CMD ["tcsh"]
