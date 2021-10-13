@@ -11,10 +11,7 @@ ENV GID=1000
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 
-
-
-RUN useradd -m $USER
-USER $SETUSER
+USER $USER
 WORKDIR /home/$USER
 
 
