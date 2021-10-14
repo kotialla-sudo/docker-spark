@@ -65,9 +65,7 @@ RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
 
 RUN ln -s /bin/sh /usr/local/bin/sh
-SHELL ["/bin/sh", "-c"]
-RUN echo I am using bash, which is now the default
-RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
+
 # user details
 ENV USER=user
 ENV UID=1000
@@ -79,10 +77,10 @@ RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 #RUN echo '%sudo ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
 WORKDIR /home/$USER
-CMD ["sh"]
+CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
-RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
+RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
 
@@ -92,8 +90,8 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
 
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$PATH
-RUN conda init sh
-RUN /bin/sh -c "source /home/$USER/.bashrc"
+RUN conda init bash
+RUN /bin/bash -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
 
