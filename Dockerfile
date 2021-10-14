@@ -63,7 +63,7 @@ RUN pip3 install wheel pip -U &&\
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
 RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
-
+RUN ln -sf /bin/bash /bin/sh
 RUN ln -s /bin/sh /usr/local/bin/sh
 
 # user details
