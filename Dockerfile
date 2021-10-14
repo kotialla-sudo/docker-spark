@@ -65,7 +65,7 @@ RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
 
 RUN ln -s /bin/sh /usr/local/bin/sh
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/sh", "-c"]
 RUN echo I am using bash, which is now the default
 RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
 # user details
@@ -76,9 +76,7 @@ ENV GID=1000
 # create user
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
-RUN adduser --disabled-password --gecos '' user
-RUN adduser user sudo
-RUN echo '%sudo ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
+#RUN echo '%sudo ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
 WORKDIR /home/$USER
 CMD ["sh"]
