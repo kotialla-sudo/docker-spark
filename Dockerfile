@@ -2,7 +2,7 @@ FROM debian:stretch
 
 
 RUN apt-get update \
- && apt-get install -y --fix-missing wget openjdk-8-jdk locales vim fish man-db nano \
+ && apt-get install -y --fix-missing --allow-unauthenticated wget openjdk-8-jdk locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
  && locale-gen C.UTF-8 \
  && /usr/sbin/update-locale LANG=C.UTF-8 \
@@ -58,6 +58,9 @@ RUN pip3 install wheel pip -U &&\
 		     protobuf
 
 RUN apt-get install -y busybox && ln -s /bin/busybox /bin/vi
+
+SHELL ["/bin/sh", "-c"]
+RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
