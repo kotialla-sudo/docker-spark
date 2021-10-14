@@ -57,10 +57,6 @@ RUN pip3 install wheel pip -U &&\
 		     imgtool \
 		     protobuf
 
-RUN apt-get install -y busybox && ln -s /bin/busybox /bin/vi
-
-SHELL ["/bin/sh", "-c"]
-RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -81,10 +77,10 @@ RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 
 USER $USER
 WORKDIR /home/$USER
-CMD ["sh"]
+CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
-RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
+RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
 
@@ -94,8 +90,8 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
 
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$PATH
-RUN conda init sh
-RUN /bin/sh -c "source /home/$USER/.bashrc"
+RUN conda init bash
+RUN /bin/bash -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
 
