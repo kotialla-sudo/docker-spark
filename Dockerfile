@@ -2,7 +2,7 @@ FROM debian:stretch
 
 
 RUN apt-get update \
- && apt-get install -y wget openjdk-8-jdk locales vim fish man-db nano \
+ && apt-get install -y --fix-missing wget openjdk-8-jdk locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
  && locale-gen C.UTF-8 \
  && /usr/sbin/update-locale LANG=C.UTF-8 \
