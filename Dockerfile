@@ -57,6 +57,8 @@ RUN pip3 install wheel pip -U &&\
 		     imgtool \
 		     protobuf
 
+RUN apt-get install -y busybox && ln -s /bin/busybox /bin/vi
+
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
