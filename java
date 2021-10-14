@@ -2,6 +2,16 @@
 RUN apt update
 RUN apt-get install -y openjdk-8-jdk
 
+
+FROM ubuntu
+RUN echo I am using the default (/bin/sh)
+RUN ["/bin/bash", "-c", "echo I am using bash"]
+SHELL ["/bin/bash", "-c"]
+RUN echo I am using bash, which is now the default
+RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
+RUN ["echo", "I don't use a shell at all"]
+
+
 #Installing Anaconda3-2019.10-Linux-x86_64.sh
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
