@@ -2,7 +2,7 @@ FROM debian:stretch
 
 
 RUN apt-get update \
- && apt-get install -y wget openjdk-8-jdk locales vim fish man-db nano \
+ && apt-get install -y wget openjdk-8-jdk sudo locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
  && locale-gen C.UTF-8 \
  && /usr/sbin/update-locale LANG=C.UTF-8 \
@@ -65,7 +65,9 @@ RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
 
 RUN ln -s /bin/sh /usr/local/bin/sh
-
+SHELL ["/bin/bash", "-c"]
+RUN echo I am using bash, which is now the default
+RUN ["/bin/sh", "-c", "echo I am using /bin/sh"]
 # user details
 ENV USER=user
 ENV UID=1000
@@ -74,13 +76,15 @@ ENV GID=1000
 # create user
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
-
+RUN adduser --disabled-password --gecos '' user
+RUN adduser user sudo
+RUN echo '%sudo ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
 WORKDIR /home/$USER
-CMD ["bash"]
+CMD ["sh"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
-RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
+RUN sh Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
 
@@ -90,8 +94,8 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
 
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$PATH
-RUN conda init bash
-RUN /bin/bash -c "source /home/$USER/.bashrc"
+RUN conda init sh
+RUN /bin/sh -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
 
