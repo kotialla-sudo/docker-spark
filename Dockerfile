@@ -11,6 +11,8 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
  
+ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ 
 #Python 3.7.11
 
 RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https 		ca-certificates 		curl 		netbase 		wget 	; 	rm -rf /var/lib/apt/lists/*
@@ -60,8 +62,6 @@ RUN pip3 install wheel pip -U &&\
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
-RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))
-RUN export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 RUN apt-get clean
 RUN ln -sf /bin/bash /bin/sh
 RUN ln -s /bin/sh /usr/local/bin/sh
@@ -74,7 +74,7 @@ ENV GID=1000
 # create user
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
-#RUN echo '%sudo ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
+RUN echo 'user ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
 WORKDIR /home/$USER
 CMD ["bash"]
@@ -89,10 +89,8 @@ RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.
     /home/$USER/anaconda3/bin/conda clean --yes --all
 
 ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
-ENV PATH /home/$USER/anaconda3/bin:$PATH
+ENV PATH /home/$USER/anaconda3/bin:$JAVA_HOME/bin:$PATH
 RUN conda init bash
-RUN echo 'export JAVA_HOME=$(dirname $(dirname $(readlink -f  /usr/bin/java)))' >> /home/$USER/.bashrc
-RUN echo 'export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")' >> /home/$USER/.bashrc
 RUN /bin/bash -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
