@@ -15,7 +15,7 @@ RUN apt-get update \
  
 #Python 3.7.11
 
-RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https 		ca-certificates 		curl 		netbase 		wget 	; 	rm -rf /var/lib/apt/lists/*
+RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https ca-certificates  curl  netbase  wget telnet vi vim net-tools ; 	rm -rf /var/lib/apt/lists/*
 
 RUN if ! command -v gpg > /dev/null; then 		apt-get update; 		apt-get install -y --no-install-recommends 			gnupg 			dirmngr 		; 		rm -rf /var/lib/apt/lists/*; 	fi
 
