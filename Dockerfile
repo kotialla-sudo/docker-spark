@@ -27,7 +27,7 @@ ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 
  ENV LANG=C.UTF-8
  
- RUN apt-get update && apt-get install -y --no-install-recommends 		libbluetooth-dev 		tk-dev 		uuid-dev 	&& rm -rf /var/lib/apt/lists/*
+ RUN apt-get update && apt-get install -y --fix-missing		libbluetooth-dev 		tk-dev 		uuid-dev 	&& rm -rf /var/lib/apt/lists/*
  
  ENV GPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
  
