@@ -59,6 +59,31 @@ RUN pip3 install wheel pip -U &&\
 		     imgtool \
 		     protobuf
 
+# HADOOP
+
+ENV HADOOP_VERSION 2.7.0
+ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+ENV PATH $PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin
+RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
+    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
+    rm -rf $HADOOP_HOME/share/doc
+
+# SPARK
+
+ENV SPARK_VERSION 2.4.0
+ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
+ENV SPARK_HOME /usr/spark-$SPARK_VERSION
+ENV PYSPARK_DRIVER_PYTHON ipython
+ENV PYSPARK_PYTHON python3
+ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
+ENV PATH $PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin:$JAVA_HOME/bin:BIN
+RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
+    tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
+    mv $SPARK_PACKAGE $SPARK_HOME && \
+    rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
+
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -99,31 +124,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY app.py ./
 EXPOSE 8080
-
-# HADOOP
-
-ENV HADOOP_VERSION 2.7.0
-ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
-ENV PATH $PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin
-RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
-    tar -vxzf hadoop-$HADOOP_VERSION.tar.gz && \
-    mv hadoop-$HADOOP_VERSION /usr/hadoop-$HADOOP_VERSION && \
-    rm -rf $HADOOP_HOME/share/doc
-
-# SPARK
-
-ENV SPARK_VERSION 2.4.0
-ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
-ENV SPARK_HOME /usr/spark-$SPARK_VERSION
-ENV PYSPARK_DRIVER_PYTHON ipython
-ENV PYSPARK_PYTHON python3
-ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
-ENV PATH $PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin:$JAVA_HOME/bin:BIN
-RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
-    tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
-    mv $SPARK_PACKAGE $SPARK_HOME && \
-    rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
 
 #ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python3", "app.py"]
 ENTRYPOINT ["python3", "app.py"]
