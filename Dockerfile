@@ -1,5 +1,9 @@
 FROM debian:stretch
 
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+RUN apt-get update \
+ && apt-get install -y vi net-tools vim telnet nano curl wget chown chmod 
 
 RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk sudo locales vim fish man-db nano \
@@ -9,9 +13,8 @@ RUN apt-get update \
  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
  && locale-gen \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
- 
- ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ && rm -rf /var/lib/apt/lists/* \
+ && chown -R root:root $JAVA_HOME
  
 #Python 3.7.11
 
@@ -76,6 +79,8 @@ RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 RUN echo 'user ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
+RUN chown -R root:root $USER
+RUN chmod -R 777 /home/$USER
 WORKDIR /home/$USER
 CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
