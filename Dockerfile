@@ -76,8 +76,6 @@ RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/sh --uid $UID --gid $GID $USER
 RUN echo 'user ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers
 USER $USER
-RUN chown -R root:root /home
-RUN chmod -R 777 /home
 WORKDIR /home/$USER
 CMD ["bash"]
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
