@@ -3,9 +3,6 @@ FROM debian:stretch
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 RUN apt-get update \
- && apt-get install -y vi net-tools vim telnet nano curl wget chown chmod 
-
-RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk sudo locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
  && locale-gen C.UTF-8 \
