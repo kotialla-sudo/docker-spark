@@ -53,6 +53,7 @@ RUN pip3 install wheel pip -U &&\
 	pip3 install west &&\
 	pip3 install sh &&\
 	pip3 install pyspark &&\
+	pip install py4j &&\
 	pip3 install awscli PyGithub junitparser pylint \
 		     statistics numpy \
 		     imgtool \
