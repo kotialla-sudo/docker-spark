@@ -1,7 +1,5 @@
 FROM debian:stretch
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-
 RUN apt-get update \
  && apt-get install -y wget openjdk-8-jdk sudo locales vim fish man-db nano \
  && dpkg-reconfigure -f noninteractive locales \
@@ -13,6 +11,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && chown -R root:root $JAVA_HOME
  
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 #Python 3.7.11
 
 RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https ca-certificates  curl  netbase  wget telnet vi vim net-tools ; 	rm -rf /var/lib/apt/lists/*
