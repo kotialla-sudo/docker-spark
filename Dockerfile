@@ -8,8 +8,7 @@ RUN apt-get update \
  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
  && locale-gen \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- && chown -R root:root $JAVA_HOME
+ && rm -rf /var/lib/apt/lists/* 
  
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 #Python 3.7.11
