@@ -8,12 +8,12 @@ RUN apt-get update \
  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
  && locale-gen \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* 
+ && rm -rf /var/lib/apt/lists/*
  
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 #Python 3.7.11
 
-RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https ca-certificates  curl  netbase  wget telnet vi vim net-tools ; 	rm -rf /var/lib/apt/lists/*
+RUN apt-get update; 	apt-get install -y --no-install-recommends gnupg dirmngr apt-transport-https ca-certificates  curl  netbase  wget ; 	rm -rf /var/lib/apt/lists/*
 
 RUN if ! command -v gpg > /dev/null; then 		apt-get update; 		apt-get install -y --no-install-recommends 			gnupg 			dirmngr 		; 		rm -rf /var/lib/apt/lists/*; 	fi
 
