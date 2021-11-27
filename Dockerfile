@@ -108,6 +108,8 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
+RUN pip3 install pyspark &&\
+    pip install py4j
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
@@ -117,8 +119,6 @@ ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$JAVA_HOME/bin:$PATH
 RUN conda init bash
 RUN /bin/bash -c "source /home/$USER/.bashrc"
-RUN pip3 install pyspark &&\
-    pip install py4j 
 
 #RUN bash conda activate base
 # Create the environment:
