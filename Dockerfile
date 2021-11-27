@@ -125,6 +125,8 @@ RUN /bin/bash -c "source /home/$USER/.bashrc"
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+COPY spark.py ./
+RUN chmod 777 spark.py
 COPY app.py ./
 EXPOSE 8080
 
