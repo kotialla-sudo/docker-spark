@@ -117,6 +117,9 @@ ENV PATH /home/$USER/anaconda3/envs/$CONDA_ENV_NAME/bin:$PATH
 ENV PATH /home/$USER/anaconda3/bin:$JAVA_HOME/bin:$PATH
 RUN conda init bash
 RUN /bin/bash -c "source /home/$USER/.bashrc"
+RUN pip3 install pyspark &&\
+    pip install py4j 
+
 #RUN bash conda activate base
 # Create the environment:
 
