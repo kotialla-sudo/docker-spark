@@ -52,8 +52,6 @@ RUN pip3 install wheel pip -U &&\
 	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/master/scripts/requirements.txt && \
 	pip3 install west &&\
 	pip3 install sh &&\
-	pip3 install pyspark &&\
-	pip install py4j &&\
 	pip3 install awscli PyGithub junitparser pylint \
 		     statistics numpy \
 		     imgtool \
@@ -110,6 +108,8 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
+ENV pyspark /home/$USER/anaconda3/bin
+ENV py4j /home/$USER/anaconda3/bin
 RUN pip3 install pyspark &&\
     pip install py4j &&\
     pip install findspark 
@@ -128,8 +128,8 @@ RUN /bin/bash -c "source /home/$USER/.bashrc"
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY spark.py ./
-RUN chmod 777 spark.py
+COPY spark.py /home/$USER/anaconda3/bin
+RUN chmod 777 -R /home/$USER/anaconda3/bin/spark.py
 COPY app.py ./
 EXPOSE 8080
 
