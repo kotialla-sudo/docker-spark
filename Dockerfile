@@ -84,6 +84,8 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-witho
     mv $SPARK_PACKAGE $SPARK_HOME && \
     rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
 
+ENV SPARK_HOME /usr/spark-$SPARK_VERSION
+ENV PYSPARK_PYTHON python3:$SPARK_HOME/python:$SPARK_HOME/python/build:$PYSPARK_PYTHON
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
