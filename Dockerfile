@@ -84,6 +84,8 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-witho
 
 ENV SPARK_HOME /usr/spark-$SPARK_VERSION
 ENV PYSPARK_PYTHON python3:$SPARK_HOME/python:$SPARK_HOME/python/build:$PYSPARK_PYTHON
+ENV PYSPARKPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/pyspark.zip:$PYSPARKPATH
+ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip:$PYTHONPATH
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
