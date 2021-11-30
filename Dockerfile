@@ -108,11 +108,11 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 RUN bash Anaconda3-2020.02-Linux-x86_64.sh -b
 RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
-ENV pyspark /home/$USER/anaconda3/bin
-ENV py4j /home/$USER/anaconda3/bin
 RUN pip3 install pyspark &&\
     pip install py4j &&\
     pip install findspark 
+ENV pyspark /home/$USER/anaconda3/bin:$pyspark
+ENV py4j /home/$USER/anaconda3/bin:$py4j
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
