@@ -113,6 +113,7 @@ RUN pip3 install pyspark &&\
     pip install findspark 
 ENV pyspark /home/$USER/anaconda3/bin:$pyspark
 ENV py4j /home/$USER/anaconda3/bin:$py4j
+RUN chmod 777 -R /home/$USER/anaconda3/bin
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
