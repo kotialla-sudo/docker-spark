@@ -81,6 +81,7 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-witho
     tar -xvzf spark-2.4.0-bin-without-hadoop.tgz && \
     mv $SPARK_PACKAGE $SPARK_HOME && \
     rm -rf $SPARK_HOME/examples $SPARK_HOME/ec2
+RUN pip install ipython
 
 ENV SPARK_HOME /usr/spark-$SPARK_VERSION
 ENV PYSPARK_PYTHON python3:$SPARK_HOME/python:$SPARK_HOME/python/build:$PYSPARK_PYTHON
