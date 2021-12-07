@@ -138,5 +138,8 @@ RUN chmod 777 -R /home/$USER/anaconda3/bin/spark.py
 COPY app.py ./
 EXPOSE 8080
 
+RUN export PYSPARK_PYTHON=/home/user/anaconda3/bin/python3
+RUN export PYSPARK_DRIVER_PYTHON=/home/user/anaconda3/bin/python3
+
 #ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python3", "app.py"]
 ENTRYPOINT ["python3", "app.py"]
