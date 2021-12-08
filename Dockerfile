@@ -73,8 +73,8 @@ RUN wget http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/had
 ENV SPARK_VERSION 2.4.0
 ENV SPARK_PACKAGE spark-$SPARK_VERSION-bin-without-hadoop
 ENV SPARK_HOME /usr/spark-$SPARK_VERSION
-ENV PYSPARK_DRIVER_PYTHON ipython
-ENV PYSPARK_PYTHON python3
+ENV PYSPARK_DRIVER_PYTHON ipython:/home/user/anaconda3/bin/python3
+ENV PYSPARK_PYTHON python3:/home/user/anaconda3/bin/python3
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
 ENV PATH $PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin:$JAVA_HOME/bin:BIN
 RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-without-hadoop.tgz && \
@@ -84,10 +84,10 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-witho
 RUN pip install ipython
 
 ENV SPARK_HOME /usr/spark-$SPARK_VERSION
-ENV PYSPARK_PYTHON python3:$SPARK_HOME/python:$SPARK_HOME/python/build:$PYSPARK_PYTHON
+ENV PYSPARK_PYTHON python3:$SPARK_HOME/python:$SPARK_HOME/python/build
 ENV PATH $SPARK_HOME/bin:$SPARK_HOME/python:$PATH
-ENV PYSPARKPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/pyspark.zip:$PYSPARKPATH
-ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip:$PYTHONPATH
+ENV PYSPARKPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/pyspark.zip
+ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip
 
 #Installing Anaconda3-2020.02-Linux-x86_64.sh
 
@@ -138,8 +138,8 @@ RUN chmod 777 -R /home/$USER/anaconda3/bin/spark.py
 COPY app.py ./
 EXPOSE 8080
 
-RUN export PYSPARK_PYTHON=/home/user/anaconda3/bin/python3
-RUN export PYSPARK_DRIVER_PYTHON=/home/user/anaconda3/bin/python3
+ENTRYPOINT export PYSPARK_PYTHON=/home/user/anaconda3/bin/python3
+ENTRYPOINT export PYSPARK_DRIVER_PYTHON=/home/user/anaconda3/bin/python3
 
 #ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python3", "app.py"]
 ENTRYPOINT ["python3", "app.py"]
