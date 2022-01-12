@@ -118,8 +118,9 @@ RUN pip3 install pyspark &&\
 ENV pyspark /home/$USER/anaconda3/bin:$pyspark
 ENV py4j /home/$USER/anaconda3/bin:$py4j
 RUN chmod 777 -R /home/$USER/anaconda3/bin
-RUN chgrp -R 0 /home/$USER && \
-    chmod -R g=u /home/$USER 
+RUN chgrp -R 0 /home/$USER/DATA && \
+    chmod -R g=u /home/$USER/DATA
+RUN chmod 777 -R /home/$USER/DATA
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
