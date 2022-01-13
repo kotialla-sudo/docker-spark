@@ -119,8 +119,8 @@ ENV pyspark /home/$USER/anaconda3/bin:$pyspark
 ENV py4j /home/$USER/anaconda3/bin:$py4j
 RUN chmod 777 -R /home/$USER/anaconda3/bin
 RUN mkdir -p /home/$USER/DATA
-RUN chgrp -R 0 /home/$USER/DATA && \
-    chmod -R g=u /home/$USER/DATA
+# RUN chgrp -R 0 /home/$USER/DATA && \
+#    chmod -R g=u /home/$USER/DATA
 RUN chmod 777 -R /home/$USER/DATA
 
 ENV CONDA_ENV_NAME mynewenv
