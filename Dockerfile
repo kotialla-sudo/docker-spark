@@ -95,6 +95,11 @@ RUN apt-get clean
 RUN ln -sf /bin/bash /bin/sh
 RUN ln -s /bin/sh /usr/local/bin/sh
 
+RUN mkdir /DATA
+# RUN chgrp -R 0 /DATA && \
+#    chmod -R g=u /DATA
+RUN chmod 777 -R /DATA
+
 # user details
 ENV USER=user
 ENV UID=1000
@@ -118,10 +123,6 @@ RUN pip3 install pyspark &&\
 ENV pyspark /home/$USER/anaconda3/bin:$pyspark
 ENV py4j /home/$USER/anaconda3/bin:$py4j
 RUN chmod 777 -R /home/$USER/anaconda3/bin
-RUN mkdir /DATA
-RUN chgrp -R 0 /DATA && \
-    chmod -R g=u /DATA
-RUN chmod 777 -R /DATA
 
 ENV CONDA_ENV_NAME mynewenv
 RUN /home/$USER/anaconda3/bin/conda create -q --name $CONDA_ENV_NAME python=3.7.11 && \
