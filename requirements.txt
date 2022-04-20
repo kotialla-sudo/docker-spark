@@ -57,8 +57,8 @@ docker==4.2.1
 docker-pycreds==0.4.0
 docutils==0.15.2
 elasticsearch==7.13.4
-en-core-web-lg==2.3.1
-en-core-web-sm==2.3.1
+# en-core-web-lg==2.3.1
+# en-core-web-sm==2.3.1
 entrypoints==0.3
 ephem==3.7.7.0
 et-xmlfile==1.0.1
@@ -148,7 +148,7 @@ numdifftools==0.9.39
 numpy==1.21.1
 oauthlib==3.1.0
 openpyxl==3.0.3
-opt-einsum==0+untagged.53.g6ab433b.dirty
+# opt-einsum==0+untagged.53.g6ab433b.dirty
 packaging==19.2
 pandas==1.2.0
 pandocfilters==1.4.2
@@ -238,7 +238,7 @@ scipy==1.6.0
 scp==0.13.3
 seaborn==0.10.1
 Send2Trash==1.5.0
-setuptools==46.4.0.post20200518
+# setuptools==46.4.0.post20200518
 simplejson==3.17.0
 six==1.12.0
 sktime==0.4.1
