@@ -102,7 +102,9 @@ jaraco.collections==3.0.0
 jaraco.functools==3.0.1
 jaraco.text==3.2.0
 jdcal==1.4.1
-jedi==0.17.0
+# jedi==0.17.0
+## jedi==0.14.1
+jedi<0.16,>=0.14.1
 Jinja2==3.0.1
 jira==2.0.0
 jmespath==0.10.0
@@ -141,7 +143,8 @@ murmurhash==1.0.2
 nbconvert==5.6.1
 nbformat==5.0.6
 netCDF4==1.5.3
-networkx==2.5.1
+# networkx==2.5.1
+networkx==2.2
 nltk==3.5
 notebook==6.0.3
 numdifftools==0.9.39
@@ -199,8 +202,10 @@ pymssql==2.1.4
 PyNaCl==1.3.0
 pyOpenSSL==19.1.0
 pyparsing==2.4.2
-PyQt5==5.15.2
+# PyQt5==5.15.2
+pyqt5<5.13
 PyQt5-sip==12.8.1
+pyqtwebengine<5.13
 pyrsistent==0.16.0
 pysftp==0.2.9
 PySocks==1.7.1
@@ -208,6 +213,8 @@ pyspark==2.4.5
 pyspellchecker==0.5.5
 pystan==2.19.1.1
 pytest==6.2.2
+pytest-cov>=2.0
+pytest-filter-subpackage>=0.1
 python-daemon==2.2.4
 python-dateutil==2.8.0
 python-dotenv==0.14.0
@@ -234,7 +241,8 @@ s3transfer==0.3.3
 scikit-criteria==0.2.10
 scikit-learn==0.23.1
 scikit-optimize==0.7.1
-scipy==1.6.0
+# scipy==1.6.0
+scipy==1.4.1
 scp==0.13.3
 seaborn==0.10.1
 Send2Trash==1.5.0
@@ -269,6 +277,7 @@ tornado==6.0.4
 tqdm==4.44.1
 traitlets==4.3.3
 typing-extensions==3.10.0.0
+typed-ast<1.5,>=1.4.0
 tzlocal==2.1
 ulid-py==0.2.0
 Unidecode==1.1.1
@@ -283,7 +292,8 @@ wheel==0.34.2
 Whoosh==2.7.4
 widgetsnbextension==3.5.1
 wordcloud==1.8.0
-wrapt==1.12.1
+# wrapt==1.12.1
+wrapt==1.11.*
 xarray==0.15.0
 xgboost==1.3.1
 xlrd==1.2.0
