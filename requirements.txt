@@ -189,7 +189,7 @@ PyDriller==1.15.4
 PyGithub==1.54
 Pygments==2.6.1
 pygount==1.2.4
-pygpu==0.7.6
+# pygpu==0.7.6
 pyinstaller==4.1
 pyinstaller-hooks-contrib==2020.10
 PyJWT==1.7.1
