@@ -45,7 +45,7 @@ convertdate==2.2.1
 # coverage==5.0
 coverage[toml]>=5.2.1
 cpt==1.2.3
-cryptography==3.3.2
+# cryptography==3.3.2
 cycler==0.10.0
 cymem==2.0.3
 Cython==0.29.15
