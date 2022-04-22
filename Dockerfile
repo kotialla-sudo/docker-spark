@@ -119,7 +119,11 @@ RUN rm Anaconda3-2020.02-Linux-x86_64.sh
 RUN ls /home/$USER/anaconda3
 RUN pip3 install pyspark &&\
     pip install py4j &&\
-    pip install findspark 
+    pip install findspark
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 ENV pyspark /home/$USER/anaconda3/bin:$pyspark
 ENV py4j /home/$USER/anaconda3/bin:$py4j
 RUN chmod 777 -R /home/$USER/anaconda3/bin
@@ -136,8 +140,6 @@ RUN /bin/bash -c "source /home/$USER/.bashrc"
 #RUN bash conda activate base
 # Create the environment:
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
 COPY spark.py /home/$USER/anaconda3/bin
 RUN chmod 777 -R /home/$USER/anaconda3/bin/spark.py
 COPY app.py ./
