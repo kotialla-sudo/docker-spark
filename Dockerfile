@@ -120,7 +120,7 @@ RUN ls /home/$USER/anaconda3
 RUN pip3 install pyspark &&\
     pip install py4j &&\
     pip install findspark
-
+RUN /home/user/anaconda3/bin/python -m pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
